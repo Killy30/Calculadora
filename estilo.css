@@ -1,0 +1,73 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    display: flex;
+    justify-content: center;
+    
+}
+.calculadora{
+    width: 240px;
+    height: 375px;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    border: 1px solid rgb(32, 32, 32) ;
+}
+.resultado{
+    width: 220px;
+    height: 50px;
+    background-color: #ccc;
+    margin-top: 10px;
+    font-size: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+#botones{
+    height: 315px;
+    width: 220px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+.botones{
+    width: 160px;
+    height: 230px;
+}
+.btn button{
+    width: 50px;
+    height: 50px;
+    margin-top: 4px;
+    border: 0;
+    font-size: 20px;
+}
+.operadores button{
+    width: 55px;
+    height: 50px;
+    margin-right: 0;
+    margin-top: 4px;
+    background-color: black;
+    color: aliceblue;
+    border: 0;
+    font-size: 20px;
+
+}
+.operadores{
+    width: 60px;
+    height: 230px;
+    display: block;
+    padding-left: 5px;
+    box-sizing: border-box
+    
+}
+.igual button{
+    width: 220px;
+    height: 60px;
+    border: 0;
+    font-size: 40px;
+    background-color: black;
+    color: #fff;
+}
