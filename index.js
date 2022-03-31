@@ -1,20 +1,51 @@
-const botones = document.getElementById('botones');
+const botones = document.querySelector('.box_numbers');
 const resultado = document.getElementById('resultado')
 const igual = document.getElementById('igual')
+const prev_result = document.querySelector('.input')
 
 
+let valor1=0
+let valor2=0
+let result=0
+
+const staticValue = () =>{
+    resultado.innerHTML = '0'
+    prev_result.innerHTML = ""
+}
+staticValue()
 
 botones.addEventListener('click', (e) => {
-    var valor = e.target.value;
-    resultado.innerHTML += valor;
-    
-    if(valor === "c"){
-        resultado.innerHTML = ""
+    num = e.target.value;
+    if(num !== '='){
+
+        if(num === "c"){
+            staticValue()
+        }
+        
+        if(resultado.innerHTML == '0'){
+            resultado.innerHTML = num
+        }else{
+            resultado.innerHTML += num
+        } 
     }
+
 })
 
-igual.addEventListener('click', () => {
-    
+
+const operacion = (v) =>{
+    console.log(resultado.innerHTML.length);
+    let valor1 = resultado.innerHTML
+    prev_result.innerHTML = valor1 + v
+
+
+    if(v == '/'){
+        
+    } 
+}
+
+
+
+const total = (e) =>{
     var resul = resultado.innerHTML;
     
     var arr = resul.split('+',2)
@@ -39,6 +70,7 @@ igual.addEventListener('click', () => {
             return resultado.innerHTML= "No se puede"
         }
     }
-    
-})
+}
 
+
+igual.addEventListener('click', () => total)
