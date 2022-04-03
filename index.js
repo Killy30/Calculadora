@@ -3,12 +3,15 @@ const resultado = document.getElementById('resultado')
 const igual = document.getElementById('igual')
 const prev_result = document.querySelector('.input')
 
-
+let valores=[]
 let valor1=0
 let valor2=0
+let valor3=0
+let operation;
 let result=0
 
 const staticValue = () =>{
+    valores.length = 0
     resultado.innerHTML = '0'
     prev_result.innerHTML = ""
 }
@@ -16,61 +19,99 @@ staticValue()
 
 botones.addEventListener('click', (e) => {
     num = e.target.value;
-    if(num !== '='){
+    let rej = /[-+/x]/
 
-        if(num === "c"){
-            staticValue()
-        }
-        
-        if(resultado.innerHTML == '0'){
-            resultado.innerHTML = num
-        }else{
-            resultado.innerHTML += num
-        } 
+    if(num === "c"){
+        staticValue()
     }
-
+    if(num !== '=' && num !== 'c'){
+        
+        if(resultado.innerHTML == '0' || prev_result.innerHTML.split(' ').includes('=')){ 
+            if(rej.test(num.split())){
+                valores.length = 0
+                let valor1 = resultado.innerHTML
+                operacion(num)
+                operation = num
+                prev_result.innerHTML = (result == 0)? valor1 +' '+ num : result +' '+ num 
+            }else{
+                valores.length = 0
+                resultado.innerHTML = num
+                prev_result.innerHTML = ""
+            }
+        }else{
+            if(rej.test(num.split())){
+                let valor1 = resultado.innerHTML
+                operacion(num)
+                operation = num
+                prev_result.innerHTML = (result == 0)? valor1 +' '+ num : result +' '+ num 
+            }else{
+                if(valores[0] == resultado.innerHTML){
+                    resultado.innerHTML = num
+                }else{
+                    resultado.innerHTML += num
+                }
+            }
+        }
+    }
 })
 
 
-const operacion = (v) =>{
-    console.log(resultado.innerHTML.length);
-    let valor1 = resultado.innerHTML
-    prev_result.innerHTML = valor1 + v
+const operacion = (o) =>{
+    valores.push(resultado.innerHTML);
 
-
-    if(v == '/'){
-        
-    } 
+    valor2 = parseInt(valores[valores.length - 2])
+    valor3 = parseInt(valores[valores.length - 1])
+    
+    if(valores.length-1 !== 0){
+        if(o == '+'){
+            result = valor2 + valor3
+            valores.length=0
+            resultado.innerHTML = result;
+        }else if(o == '-'){
+            result = valor2 - valor3
+            valores.length=0
+            resultado.innerHTML = result;
+        }else if(o == 'x'){
+            result = valor2 * valor3
+            valores.length=0
+            resultado.innerHTML = result;
+        }else if(o == '/'){
+            result = valor2 / valor3
+            valores.length=0
+            resultado.innerHTML = result;
+        }
+    }
 }
 
 
 
 const total = (e) =>{
-    var resul = resultado.innerHTML;
+    valores.push(resultado.innerHTML);
+
+    valor2 = parseInt(valores[valores.length - 2])
+    valor3 = parseInt(valores[valores.length - 1])
     
-    var arr = resul.split('+',2)
-    var res = resul.split('-',2)
-    var mul = resul.split('x',2)
-    var div = resul.split('/',2)
-    
-    
-    if(resul.indexOf("+") !== -1) {
-        var suma = parseInt(arr[0]) + parseInt(arr[1])
+    if(operation == '+') {
+        var suma = valor2 + valor3
+        prev_result.innerHTML += ` ${valor3} =`
         resultado.innerHTML = suma;
-    }else if(resul.indexOf("-") !== -1) {
-        var resta = parseInt(res[0]) - parseInt(res[1])
+    }else if(operation == '-') {
+        var resta = valor2 - valor3
+        prev_result.innerHTML += ` ${valor3} =`
         resultado.innerHTML = resta;
-    }else if(resul.indexOf("x") !== -1) {
-        var multi = parseInt(mul[0]) * parseInt(mul[1])
+    }else if(operation == 'x') {
+        var multi = valor2 * valor3
+        prev_result.innerHTML += ` ${valor3} =`
         resultado.innerHTML = multi;
-    }else if(resul.indexOf("/") !== -1) {
-        var division = parseInt(div[0]) / parseInt(div[1])
+    }else if(operation == '/') {
+        var division = valor2 / valor3
+        prev_result.innerHTML += ` ${valor3} =`
         resultado.innerHTML = division;
-        if(parseInt(div[1]) == 0){
-            return resultado.innerHTML= "No se puede"
+        if(valor3 == 0){
+            return resultado.innerHTML= "<spam style='font-size: 18px'>No se puede dividir por 0</spam>"
         }
     }
 }
 
 
-igual.addEventListener('click', () => total)
+igual.addEventListener('click', () => total())
